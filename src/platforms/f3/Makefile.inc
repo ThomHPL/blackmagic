@@ -16,6 +16,7 @@ LDFLAGS =  --specs=nano.specs -lopencm3_stm32f3 \
 VPATH += platforms/stm32
 
 SRC += 	cdcacm.c	\
+	fifo.c      \
 	traceswodecode.c\
 	traceswo.c	\
 	usbuart.c	\

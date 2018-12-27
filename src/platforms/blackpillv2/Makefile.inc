@@ -28,6 +28,7 @@ endif
 VPATH += platforms/stm32
 
 SRC += 	cdcacm.c	\
+	fifo.c      \
 	traceswodecode.c	\
 	traceswo.c	\
 	usbuart.c	\

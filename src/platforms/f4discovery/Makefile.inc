@@ -29,6 +29,7 @@ VPATH += platforms/stm32
 
 SRC += 	cdcacm.c	\
 	traceswodecode.c	\
+	fifo.c      \
 	traceswo.c	\
 	usbuart.c	\
 	serialno.c	\

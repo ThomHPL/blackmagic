@@ -12,13 +12,13 @@ CFLAGS += -DDFU_SERIAL_LENGTH=9
 LINKER_SCRIPT="platforms/tm4c/tm4c.ld"
 LDFLAGS = -nostartfiles -lc $(CPU_FLAGS) -nodefaultlibs -T$(LINKER_SCRIPT) -Wl,--gc-sections \
 	-L../libopencm3/lib -lopencm3_lm4f -lnosys -lm -lgcc
-	
+
 VPATH += platforms/tm4c
 
 SRC +=	cdcacm.c	\
+	fifo.c      \
 	usbuart.c	\
 	timing.c        \
 	traceswo.o
 
 all: blackmagic.bin
-
