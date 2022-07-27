@@ -61,6 +61,7 @@ SRC =			\
 	stm32l4.c	\
 	stm32g0.c	\
 	target.c	\
+	apollo3b.c 	\
 
 
 include $(PLATFORM_DIR)/Makefile.inc
