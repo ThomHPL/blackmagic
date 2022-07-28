@@ -55,13 +55,15 @@ SRC =			\
 	samx5x.c	\
 	stm32f1.c	\
 	ch32f1.c	\
-	stm32f4.c	\
+	apollo3b.c 	\
+	target.c	\
+	#stm32f4.c	\
 	stm32h7.c	\
 	stm32l0.c	\
 	stm32l4.c	\
 	stm32g0.c	\
-	target.c	\
-	apollo3b.c 	\
+	
+	
 
 
 include $(PLATFORM_DIR)/Makefile.inc
