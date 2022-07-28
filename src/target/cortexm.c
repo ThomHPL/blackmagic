@@ -418,17 +418,17 @@ bool cortexm_probe(ADIv5_AP_t *ap)
 	case AP_DESIGNER_GIGADEVICE:
 		PROBE(gd32f1_probe);
 		break;
-	case AP_DESIGNER_STM32WX:
-		PROBE(stm32l4_probe);
-		break;
-	case AP_DESIGNER_STM:
-		PROBE(stm32f1_probe);
-		PROBE(stm32f4_probe);
-		PROBE(stm32h7_probe);
-		PROBE(stm32l0_probe);
-		PROBE(stm32l4_probe);
-		PROBE(stm32g0_probe);
-		break;
+	// case AP_DESIGNER_STM32WX:
+	//	PROBE(stm32l4_probe);
+	//	break;
+	// case AP_DESIGNER_STM:
+	// 	PROBE(stm32f1_probe);
+	// 	PROBE(stm32f4_probe);
+	// 	PROBE(stm32h7_probe);
+	// 	PROBE(stm32l0_probe);
+	// 	PROBE(stm32l4_probe);
+	// 	PROBE(stm32g0_probe);
+	// 	break;
 	case AP_DESIGNER_CYPRESS:
 		DEBUG_WARN("Unhandled Cypress device\n");
 		break;
