@@ -10,7 +10,7 @@
 
 #define APOLLO3B_FLASH_BASE 0x00000000
 #define APOLLO3B_FLASH_SIZE 0x00100000
-#define APOLLO3B_BLOCKSIZE 2048
+#define APOLLO3B_BLOCKSIZE  2048
 
 #define APOLLO3B_TCM_SRAM_START  0x10000000
 #define APOLLO3B_TCM_SRAM_LEN    0x00010000
@@ -18,24 +18,26 @@
 #define APOLLO3B_MAIN_SRAM_LEN   0x00050000
 
 #define CMD_PROGRAM_MAIN_FLASH      0x0800005D
-#define CMD_PROGRAM_OTP_FLASH       0x08000061
+#define CMD_PROGRAM_INFO0_FLASH     0x08000061
 #define CMD_FLASH_ERASE_PAGES_MAIN  0x08000065
 #define CMD_FLASH_MASS_ERASE_MAIN   0x08000069
 #define CMD_UNKNOWN_1               0x080000CA // PC when entering debug
 
-#define PROGRAM_KEY      (0x12344321)
-#define OTP_PROGRAM_KEY  (0x87655678)
+#define PROGRAM_KEY         (0x12344321)
+#define INFO0_PROGRAM_KEY   (0x87655678)
 
 static int ambiq_run_cmd(target *t, uint32_t command, uint32_t flash_return_address) {
     (void) flash_return_address;
     (void) command;
 
+    DEBUG_INFO("Run command at 0x%8X\n", command);
+
     uint32_t backup_regs[t->regs_size / sizeof(uint32_t)];
 	target_regs_read(t, backup_regs);
     backup_regs[10] = 0x1;
     t->regs_write(t, backup_regs);
-    // target_mem_write32(t, CORTEXM_DCRDR, command);
-    // target_mem_write32(t, CORTEXM_DCRSR,  CORTEXM_DCRSR_REGWnR | 0b0001010);
+    target_mem_write32(t, CORTEXM_DCRDR, command);
+    target_mem_write32(t, CORTEXM_DCRSR, CORTEXM_DCRSR_REGWnR | 0b0001100);
     // target_mem_write32(t, CORTEXM_DHCSR, CORTEXM_DHCSR_DBGKEY | CORTEXM_DHCSR_C_MASKINTS | CORTEXM_DHCSR_C_STEP | CORTEXM_DHCSR_C_DEBUGEN);
 
     return true;
@@ -78,8 +80,6 @@ static bool get_core_reg(target *t, int argc, const char *argv[]) {
 }
 
 static bool program_main_flash(target *t, int argc, const char *argv[]) {
-    
-    (void) t;
 
     if (argc != 3) {
         DEBUG_INFO("Bad number of arguments: %d\n", argc);
@@ -110,11 +110,11 @@ static bool program_main_flash(target *t, int argc, const char *argv[]) {
     target_mem_write32(t, 0x10000008, PROGRAM_KEY);
 
     // Breakpoint
-    target_mem_write32(t, 0x1000000C, 0xFFFFFFFE);
+    target_mem_write32(t, 0x1000000C, 0xFFFFFFFF);
     
     // Write data to SRAM
     uint32_t data[] = {0x1005FFF4};
-    target_mem_write(t, 0x10000010, (uint8_t*) data, 4);
+    target_mem_write(t, 0x10001000, (uint8_t*) data, 4);
 
     ambiq_run_cmd(t, CMD_PROGRAM_MAIN_FLASH, 0x1000000C);
 
